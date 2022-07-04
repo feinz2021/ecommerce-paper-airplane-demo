@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <template>
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
@@ -93,3 +94,5 @@ export default {
 
 <style>
 </style>
+=======
+>>>>>>> parent of 3828a7c (changed to bulma-css)
