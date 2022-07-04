@@ -30,10 +30,10 @@
 
         <a class="navbar-item"> Documentation </a>
 
-        <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link"> More </a>
+        <div class="navbar-item has-dropdown">
+          <a class="navbar-link" @click="menuDropdown()"> More </a>
 
-          <div class="navbar-dropdown">
+          <div class="navbar-dropdown" :style="mobileDropdown">
             <a class="navbar-item"> About </a>
             <a class="navbar-item"> Jobs </a>
             <a class="navbar-item"> Contact </a>
@@ -62,14 +62,29 @@ export default {
   data() {
     return {
       mobileMenuOpen: "",
+      mobileDropdown: "",
     };
   },
   methods: {
     menuMobile() {
       if (this.mobileMenuOpen === "") {
         this.mobileMenuOpen = "is-active";
+        this.mobileDropdown = "display: none";
+      } else this.mobileMenuOpen = "";
+    },
+    menuDropdown() {
+      if (this.mobileMenuOpen === "is-active") {
+        if (this.mobileDropdown === "display: none")
+          this.mobileDropdown = "display: block";
+        else if (this.mobileDropdown === "")
+          this.mobileDropdown = "display: block";
+        else this.mobileDropdown = "display: none";
       } else {
-        this.mobileMenuOpen = "";
+        if (this.mobileDropdown === "display: none")
+          this.mobileDropdown = "display: block";
+        else if (this.mobileDropdown === "")
+          this.mobileDropdown = "display: block";
+        else this.mobileDropdown = "display: none";
       }
     },
   },
