@@ -22,3 +22,7 @@ pnpm-debug.log*
 *.sln
 *.sw?
 .env
+test-image/down.jpg
+test-image/left.jpg
+test-image/right.jpg
+test-image/up.jpg
