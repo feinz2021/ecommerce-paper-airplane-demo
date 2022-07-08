@@ -15,9 +15,11 @@
     <li><a href="#!">three</a></li>
   </ul>
   <!-- nav -->
-  <nav class="z-depth-0">
+  <nav class="z-depth-0 brown">
     <div class="nav-wrapper">
-      <router-link to="/" class="brand-logo hide-on-med-and-down">Logo</router-link>
+      <router-link to="/" class="brand-logo hide-on-med-and-down"
+        >Logo</router-link
+      >
       <a href="#" data-target="mobile-demo" class="sidenav-trigger"
         ><i class="material-icons">menu</i></a
       >
@@ -29,12 +31,15 @@
           >
         </li>
       </ul>
-      <router-link to="/shoppingcart" class="btn-flat right" style="color: white"
+      <router-link
+        to="/shoppingcart"
+        class="btn-flat right"
+        style="color: white"
         ><i class="material-icons-outlined">shopping_cart</i></router-link
       >
       <!-- searchbox -->
       <div class="input-field" style="width: 60%; margin-left: 15%">
-        <input class="rc" id="search" type="search" />
+        <input class="rc" id="search" style="color: white;" type="search" />
         <label class="label-icon" for="search"
           ><i class="material-icons">search</i></label
         >
@@ -57,5 +62,11 @@ export default {
 <style>
 .rc {
   border-radius: 10px !important;
+}
+#search:focus {
+  position: absolute;
+  color: black !important;
+  height: 80%;
+  margin: 5px 0px;
 }
 </style>
