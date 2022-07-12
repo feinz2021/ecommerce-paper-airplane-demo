@@ -4,7 +4,11 @@
 
     <!-- item list -->
     <div class="row">
-      <div v-for="tes in test" :key="tes" class="col s6 m4 l3">
+      <div
+        v-for="tes in paginationLimitDisplay"
+        :key="tes"
+        class="col s6 m4 l3"
+      >
         <div
           class="card-panel z-depth-0 brown lighten-5 rc fp"
           style="height: 300px"
@@ -17,22 +21,24 @@
 
     <!-- pagination -->
     <ul class="pagination center">
-      <li :class="currentPage === 1 ? disableNextPrev : enableNextPrev">
-        <a href="#!"><i class="material-icons">chevron_left</i></a>
+      <li :class="currentIndex === 0 ? disableNextPrev : enableNextPrev">
+        <a @click="pagePrev()"><i class="material-icons">chevron_left</i></a>
       </li>
-      <span v-for="(num, index) in test" :key="num">
+      <span v-for="(num, index) in paginationNumber" :key="num">
         <li
           :class="
-            activePage === false ? paginationInactivePage : paginationActivePage
+            currentIndex === index + 1
+              ? paginationActiveNum
+              : paginationInactiveNum
           "
         >
-          <a href="#!"> {{ index + 1 }}</a>
+          <a @click="pageNum(index)"> {{ index + 1 }}</a>
         </li>
       </span>
       <li
-        :class="currentPage === test.length ? disableNextPrev : enableNextPrev"
+        :class="currentIndex === test.length ? disableNextPrev : enableNextPrev"
       >
-        <a href="#!"><i class="material-icons">chevron_right</i></a>
+        <a @click="pageNext()"><i class="material-icons">chevron_right</i></a>
       </li>
     </ul>
   </div>
@@ -44,15 +50,15 @@
 export default {
   data() {
     return {
-      activePage: true,
-      currentPage: 1,
+      currentListPosition: 0, // position list in array for pagination
+      currentIndex: 1, // for pagination navigation numbering
       //   user: "",
       test: [
         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
         21,
       ],
-      paginationActivePage: "active brown lighten-1",
-      paginationInactivePage: "waves-effect",
+      paginationActiveNum: "active brown lighten-1",
+      paginationInactiveNum: "waves-effect",
       disableNextPrev: "disabled",
       enableNextPrev: "waves-effect",
     };
@@ -64,15 +70,33 @@ export default {
     user() {
       return this.$store.state.user;
     },
+    paginationLimitDisplay() {
+      return this.test.slice(
+        this.currentListPosition,
+        10 + this.currentListPosition
+      );
+    },
+    paginationNumber() {
+      let arrayLength = this.test.length;
+      let navNum = arrayLength / 10;
+      if (navNum - Math.floor(navNum) !== 0) {
+        return Math.trunc(navNum) + 1;
+      } else {
+        return navNum;
+      }
+    },
   },
   methods: {
     gotoProductDetails(id) {
       sessionStorage.setItem("productId", id);
       this.$router.push("/productdetails");
     },
-    clickCallback(pageNum) {
-      console.log(pageNum);
+    pagePrev() {},
+    pageNum(currentPosition) {
+      this.currentListPosition = currentPosition * 10;
+      this.currentIndex = currentPosition + 1;
     },
+    pageNext() {},
   },
 };
 </script>
