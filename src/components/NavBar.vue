@@ -31,15 +31,16 @@
           >
         </li>
       </ul>
-      <router-link
-        to="/shoppingcart"
-        class="btn-flat right"
-        style="color: white"
-        ><i class="material-icons-outlined">shopping_cart</i></router-link
+      <a
+        id="shoppingcart"
+        class="btn-flat btn-large right waves-effect waves-dark"
+        style="color: white; height: 100%"
+        @click="shoppingCartBtn"
+        ><i class="material-icons-outlined">shopping_cart</i></a
       >
       <!-- searchbox -->
       <div class="input-field" style="width: 60%; margin-left: 15%">
-        <input class="rc" id="search" style="color: white;" type="search" />
+        <input class="rc" id="search" style="color: white" type="search" />
         <label class="label-icon" for="search"
           ><i class="material-icons">search</i></label
         >
@@ -56,6 +57,11 @@ export default {
   mounted() {
     M.AutoInit();
   },
+  methods: {
+    shoppingCartBtn() {
+      this.$router.push("/shoppingcart");
+    },
+  },
 };
 </script>
 
@@ -68,5 +74,8 @@ export default {
   color: black !important;
   height: 80%;
   margin: 5px 0px;
+}
+#shoppingcart:hover {
+  background-color: #795548 !important;
 }
 </style>

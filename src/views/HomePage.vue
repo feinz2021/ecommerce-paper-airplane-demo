@@ -4,8 +4,8 @@
     <div class="row">
       <div v-for="tes in test" :key="tes" class="col s6 m4 l3">
         <div
-          class="card-panel z-depth-0 blue rc"
-          style="color: white; height: 300px"
+          class="card-panel z-depth-0 brown lighten-5 rc"
+          style="height: 300px"
           @click="gotoProductDetails(tes)"
         >
           {{ tes }}

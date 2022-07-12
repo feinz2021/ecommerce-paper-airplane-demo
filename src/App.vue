@@ -1,12 +1,18 @@
 <template>
   <NavBar />
-  <router-view />
+  <body>
+    <main>
+      <router-view />
+    </main>
+  </body>
+  <FooterPage />
 </template>
 
 <script>
 import NavBar from "@/components/NavBar.vue";
+import FooterPage from "@/components/FooterPage.vue";
 export default {
-  components: { NavBar },
+  components: { NavBar, FooterPage },
 };
 </script>
 
@@ -19,8 +25,15 @@ export default {
 html,
 body {
   font-family: "Ubuntu", sans-serif;
+  display: flex !important;
+  min-height: 100vh !important;
+  flex-direction: column !important;
 }
 #app {
   font-family: "Ubuntu", sans-serif;
+}
+
+main {
+  flex: 1 0 auto !important;
 }
 </style>
