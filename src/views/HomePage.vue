@@ -37,6 +37,7 @@
           :class="
             currentIndex === num ? paginationActiveNum : paginationInactiveNum
           "
+          style="width: 50px"
         >
           <a @click="pageNum(num)"> {{ num }}</a>
         </li>
@@ -106,12 +107,14 @@ export default {
     user() {
       return this.$store.state.user;
     },
+    // main data display limited by pagination
     paginationDisplayData() {
       return this.test.slice(
         this.currentListPosition,
         10 + this.currentListPosition
       );
     },
+    // pagination navigation number at bottom 
     paginationNumber() {
       let arr = [];
       let arrayLength = this.test.length;
@@ -144,6 +147,7 @@ export default {
         }
       }
     },
+    // max number of pagination navigation
     paginationMaxNumber() {
       let arrayLength = this.test.length;
       let navNum = arrayLength / 10;
