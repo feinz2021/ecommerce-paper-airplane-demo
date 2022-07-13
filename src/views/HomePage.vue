@@ -19,27 +19,27 @@
       </div>
     </div>
 
-    <!-- pagination -->
+    <!-- pagination number at bottom -->
     <ul class="pagination center">
       <li :class="currentIndex === 1 ? disableNextPrev : enableNextPrev">
         <a @click="pagePrev(currentIndex)"
           ><i class="material-icons">chevron_left</i></a
         >
       </li>
-      <span v-for="(num, index) in paginationNumber" :key="num">
+      <span v-for="num in paginationNumber" :key="num">
         <li
           :class="
-            currentIndex === index + 1
-              ? paginationActiveNum
-              : paginationInactiveNum
+            currentIndex === num ? paginationActiveNum : paginationInactiveNum
           "
         >
-          <a @click="pageNum(index)"> {{ index + 1 }}</a>
+          <a @click="pageNum(num)"> {{ num }}</a>
         </li>
       </span>
       <li
         :class="
-          currentIndex === paginationNumber ? disableNextPrev : enableNextPrev
+          currentIndex === paginationMaxNumber
+            ? disableNextPrev
+            : enableNextPrev
         "
       >
         <a @click="pageNext(currentIndex)"
@@ -101,6 +101,34 @@ export default {
       );
     },
     paginationNumber() {
+      let arr = [];
+      let arrayLength = this.test.length;
+      let navNum = arrayLength / 10;
+      if (navNum - Math.floor(navNum) !== 0) {
+        let num = Math.trunc(navNum) + 1;
+        for (let i = 1; i <= num; i++) {
+          arr[i] = i;
+        }
+        if (this.currentIndex < 5) {
+          return arr.slice(1, 11);
+        } else return arr.slice(this.currentIndex - 4, 6 + this.currentIndex);
+      } else {
+        for (let i = 1; i <= navNum; i++) {
+          arr[i] = i;
+        }
+        if (this.currentIndex < 5) {
+          return arr.slice(1, 11);
+        } else if (
+          this.currentIndex >= navNum - 4 &&
+          this.currentIndex <= navNum
+        ) {
+          return arr.slice(navNum - 9, 1 + navNum);
+        } else {
+          return arr.slice(this.currentIndex - 4, 6 + this.currentIndex);
+        }
+      }
+    },
+    paginationMaxNumber() {
       let arrayLength = this.test.length;
       let navNum = arrayLength / 10;
       if (navNum - Math.floor(navNum) !== 0) {
@@ -122,11 +150,11 @@ export default {
       }
     },
     pageNum(currentPosition) {
-      this.currentListPosition = currentPosition * 10;
-      this.currentIndex = currentPosition + 1;
+      this.currentListPosition = (currentPosition - 1) * 10;
+      this.currentIndex = currentPosition;
     },
     pageNext(i) {
-      if (this.currentIndex !== this.paginationNumber) {
+      if (this.currentIndex !== this.paginationMaxNumber) {
         this.currentListPosition = this.currentListPosition + 10;
         this.currentIndex = i + 1;
       }
