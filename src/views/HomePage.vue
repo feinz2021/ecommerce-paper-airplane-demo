@@ -4,11 +4,7 @@
 
     <!-- item list -->
     <div class="row">
-      <div
-        v-for="tes in paginationDisplayData"
-        :key="tes"
-        class="col s6 m4 l3"
-      >
+      <div v-for="tes in paginationDisplayData" :key="tes" class="col s6 m4 l3">
         <div
           class="card-panel z-depth-0 brown lighten-5 rc fp"
           style="height: 300px"
@@ -23,13 +19,12 @@
     <ul class="pagination center">
       <li :class="currentIndex === 1 ? disableNextPrev : enableNextPrev">
         <a @click="pageNum(1)"
-          ><i class="material-icons">chevron_left</i
-          ><i class="material-icons">chevron_left</i></a
+          ><i class="material-icons-round">skip_previous</i></a
         >
       </li>
       <li :class="currentIndex === 1 ? disableNextPrev : enableNextPrev">
         <a @click="pagePrev(currentIndex)"
-          ><i class="material-icons">chevron_left</i></a
+          ><i class="material-icons-round">chevron_left</i></a
         >
       </li>
       <span v-for="num in paginationNumber" :key="num">
@@ -50,13 +45,18 @@
         "
       >
         <a @click="pageNext(currentIndex)"
-          ><i class="material-icons">chevron_right</i></a
+          ><i class="material-icons-round">chevron_right</i></a
         >
       </li>
-      <li :class="currentIndex === paginationMaxNumber ? disableNextPrev : enableNextPrev">
+      <li
+        :class="
+          currentIndex === paginationMaxNumber
+            ? disableNextPrev
+            : enableNextPrev
+        "
+      >
         <a @click="pageNum(paginationMaxNumber)"
-          ><i class="material-icons">chevron_right</i
-          ><i class="material-icons">chevron_right</i></a
+          ><i class="material-icons-round">skip_next</i></a
         >
       </li>
     </ul>
@@ -114,7 +114,7 @@ export default {
         10 + this.currentListPosition
       );
     },
-    // pagination navigation number at bottom 
+    // pagination navigation number at bottom
     paginationNumber() {
       let arr = [];
       let arrayLength = this.test.length;
