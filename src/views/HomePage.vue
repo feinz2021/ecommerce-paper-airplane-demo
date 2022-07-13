@@ -5,7 +5,7 @@
     <!-- item list -->
     <div class="row">
       <div
-        v-for="tes in paginationLimitDisplay"
+        v-for="tes in paginationDisplayData"
         :key="tes"
         class="col s6 m4 l3"
       >
@@ -21,6 +21,12 @@
 
     <!-- pagination number at bottom -->
     <ul class="pagination center">
+      <li :class="currentIndex === 1 ? disableNextPrev : enableNextPrev">
+        <a @click="pageNum(1)"
+          ><i class="material-icons">chevron_left</i
+          ><i class="material-icons">chevron_left</i></a
+        >
+      </li>
       <li :class="currentIndex === 1 ? disableNextPrev : enableNextPrev">
         <a @click="pagePrev(currentIndex)"
           ><i class="material-icons">chevron_left</i></a
@@ -43,6 +49,12 @@
         "
       >
         <a @click="pageNext(currentIndex)"
+          ><i class="material-icons">chevron_right</i></a
+        >
+      </li>
+      <li :class="currentIndex === paginationMaxNumber ? disableNextPrev : enableNextPrev">
+        <a @click="pageNum(paginationMaxNumber)"
+          ><i class="material-icons">chevron_right</i
           ><i class="material-icons">chevron_right</i></a
         >
       </li>
@@ -79,7 +91,7 @@ export default {
         249, 250, 251, 252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262,
         263, 264, 265, 266, 267, 268, 269, 270, 271, 272, 273, 274, 275, 276,
         277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288, 289, 290,
-        291, 292, 293, 294, 295, 296, 297, 298, 299,
+        291, 292, 293, 294, 295, 296, 297, 298, 299, 300,
       ],
       paginationActiveNum: "active brown lighten-1",
       paginationInactiveNum: "waves-effect",
@@ -94,7 +106,7 @@ export default {
     user() {
       return this.$store.state.user;
     },
-    paginationLimitDisplay() {
+    paginationDisplayData() {
       return this.test.slice(
         this.currentListPosition,
         10 + this.currentListPosition
