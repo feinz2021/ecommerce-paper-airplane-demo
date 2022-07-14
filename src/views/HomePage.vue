@@ -19,12 +19,20 @@
     <ul class="pagination center">
       <li :class="currentIndex === 1 ? disableNextPrev : enableNextPrev">
         <a @click="pageNum(1)"
-          ><i class="material-icons-round">skip_previous</i></a
+          ><i
+            class="material-icons-round"
+            :class="currentIndex === 1 ? disabledColor : enabledColor"
+            >skip_previous</i
+          ></a
         >
       </li>
       <li :class="currentIndex === 1 ? disableNextPrev : enableNextPrev">
         <a @click="pagePrev(currentIndex)"
-          ><i class="material-icons-round">chevron_left</i></a
+          ><i
+            class="material-icons-round"
+            :class="currentIndex === 1 ? disabledColor : enabledColor"
+            >chevron_left</i
+          ></a
         >
       </li>
       <span v-for="num in paginationNumber" :key="num">
@@ -34,7 +42,12 @@
           "
           style="width: 50px"
         >
-          <a @click="pageNum(num)"> {{ num }}</a>
+          <a
+            @click="pageNum(num)"
+            :class="currentIndex === num ? selectedNumber : notSelectedNumber"
+          >
+            {{ num }}</a
+          >
         </li>
       </span>
       <li
@@ -45,7 +58,15 @@
         "
       >
         <a @click="pageNext(currentIndex)"
-          ><i class="material-icons-round">chevron_right</i></a
+          ><i
+            class="material-icons-round"
+            :class="
+              currentIndex === paginationMaxNumber
+                ? disabledColor
+                : enabledColor
+            "
+            >chevron_right</i
+          ></a
         >
       </li>
       <li
@@ -56,7 +77,15 @@
         "
       >
         <a @click="pageNum(paginationMaxNumber)"
-          ><i class="material-icons-round">skip_next</i></a
+          ><i
+            class="material-icons-round"
+            :class="
+              currentIndex === paginationMaxNumber
+                ? disabledColor
+                : enabledColor
+            "
+            >skip_next</i
+          ></a
         >
       </li>
     </ul>
@@ -98,6 +127,10 @@ export default {
       paginationInactiveNum: "waves-effect",
       disableNextPrev: "disabled",
       enableNextPrev: "waves-effect",
+      disabledColor: "fcbrownlite",
+      enabledColor: "fcbrown",
+      selectedNumber: "whitefont",
+      notSelectedNumber: "fcbrown",
     };
   },
   mounted() {
@@ -188,5 +221,14 @@ export default {
 }
 .fp {
   cursor: pointer;
+}
+.fcbrownlite {
+  color: #bcaaa4 !important;
+}
+.fcbrown {
+  color: #795548 !important;
+}
+.whitefont {
+  color: white !important;
 }
 </style>

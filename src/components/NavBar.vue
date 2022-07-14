@@ -7,12 +7,13 @@
     <li class="divider"></li>
     <li><a href="#!">three</a></li>
   </ul>
-  <!-- dropdown content (identical to sidenav content) -->
-  <ul id="dropdown1" class="dropdown-content">
-    <li><a href="#!">one</a></li>
-    <li><a href="#!">two</a></li>
+  <!-- dropdown content (must be identical to sidenav content) -->
+  <ul id="dropdown1" class="dropdown-content rc">
+    <li><a class="fcbrown">Login</a></li>
     <li class="divider"></li>
-    <li><a href="#!">three</a></li>
+    <li><a class="fcbrown">two</a></li>
+    <li class="divider"></li>
+    <li><a class="fcbrown">three</a></li>
   </ul>
   <!-- nav -->
   <nav class="z-depth-0 brown">
@@ -40,11 +41,23 @@
       >
       <!-- searchbox -->
       <div class="input-field" style="width: 60%; margin-left: 15%">
-        <input class="rc" id="search" style="color: white" type="search" />
+        <input
+          @focus="searchIconColorActive()"
+          @blur="searchIconColorInactive()"
+          class="rc"
+          id="search"
+          style="color: white"
+          type="search"
+        />
         <label class="label-icon" for="search"
-          ><i class="material-icons">search</i></label
+          ><i
+            class="material-icons"
+            :class="
+              isSearchActive === true ? searchIconActive : searchIconInactive
+            "
+            >search</i
+          ></label
         >
-        <i class="material-icons">close</i>
       </div>
     </div>
   </nav>
@@ -54,12 +67,31 @@
 import M from "@materializecss/materialize";
 
 export default {
+  data() {
+    return {
+      isSearchActive: false,
+      searchIconActive: "searchiconactive",
+      searchIconInactive: "searchiconinactive",
+    };
+  },
   mounted() {
     M.AutoInit();
   },
   methods: {
     shoppingCartBtn() {
       this.$router.push("/shoppingcart");
+    },
+    searchIconColorActive() {
+      const elem = document.getElementById("search");
+      if (elem === document.activeElement) {
+        this.isSearchActive = true;
+      }
+    },
+    searchIconColorInactive() {
+      const elem = document.getElementById("search");
+      if (elem !== document.activeElement) {
+        this.isSearchActive = false;
+      }
     },
   },
 };
@@ -69,13 +101,23 @@ export default {
 .rc {
   border-radius: 10px !important;
 }
+/* searchbox focus input typing */
 #search:focus {
   position: absolute;
-  color: black !important;
+  color: #795548 !important;
   height: 80%;
   margin: 5px 0px;
 }
 #shoppingcart:hover {
   background-color: #795548 !important;
+}
+.searchiconinactive {
+  color: white !important;
+}
+.searchiconactive {
+  color: #795548 !important;
+}
+.fcbrown {
+  color: #795548 !important;
 }
 </style>
