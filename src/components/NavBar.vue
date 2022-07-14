@@ -1,19 +1,29 @@
 <template>
+  <!-- Login Modal Structure -->
+  <div id="loginmodal" class="modal rc">
+    <div class="modal-content">
+      <h4>Modal Header</h4>
+      <p>A bunch of text</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+  </div>
   <!-- sidenav content -->
   <ul class="sidenav" id="mobile-demo">
     <li><a href="#!">username</a></li>
     <li><a href="#!">one</a></li>
     <li><a href="#!">two</a></li>
     <li class="divider"></li>
-    <li><a href="#!">three</a></li>
+    <li><a class="fcbrown modal-trigger" href="#loginmodal">Login</a></li>
   </ul>
   <!-- dropdown content (must be identical to sidenav content) -->
   <ul id="dropdown1" class="dropdown-content rc">
-    <li><a class="fcbrown">Login</a></li>
+    <li><a class="fcbrown">aa</a></li>
     <li class="divider"></li>
     <li><a class="fcbrown">two</a></li>
     <li class="divider"></li>
-    <li><a class="fcbrown">three</a></li>
+    <li><a class="fcbrown modal-trigger" href="#loginmodal">Login</a></li>
   </ul>
   <!-- nav -->
   <nav class="z-depth-0 brown">
