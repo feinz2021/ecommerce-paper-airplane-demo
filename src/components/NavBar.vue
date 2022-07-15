@@ -182,6 +182,8 @@ export default {
       signInWithEmailAndPassword(auth, this.email, this.password)
         .then((res) => {
           console.log("console.log login successful: ");
+          this.email = "";
+          this.password = "";
           console.log(res);
           this.loggedInUserEmail = res.user.email;
 
