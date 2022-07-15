@@ -1,17 +1,53 @@
 <template>
   <!-- Login Modal Structure -->
-  <div id="loginmodal" class="modal rc">
+  <div id="loginmodal" class="modal rc" style="width: 400px">
     <div class="modal-content">
-      <h4>Modal Header</h4>
-      <p>A bunch of text</p>
-    </div>
-    <div class="modal-footer">
-      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+      <h5 class="center fcbrown">Login</h5>
+      <div style="margin-bottom: 20px"></div>
+      <div class="input-field">
+        <input placeholder="Email" v-model="email" id="email" type="text" />
+        <label for="email" class="active">Email</label>
+      </div>
+      <div class="input-field">
+        <input
+          placeholder="Password"
+          v-model="password"
+          id="password"
+          type="password"
+        />
+        <label for="password" class="active">Password</label>
+      </div>
+      <a
+        @click="login()"
+        class="
+          rc
+          btn btn-large
+          waves-effect waves-light
+          z-depth-0
+          brown
+          darken-2
+        "
+        style="width: 100%"
+        >Login<span class="material-icons right" style="margin-top: 15px"
+          >login</span
+        ></a
+      >
+      <div style="margin-bottom: 10px"></div>
+      <a
+        @click="register()"
+        class="rc btn btn-large waves-effect waves-light z-depth-0 brown"
+        style="width: 100%"
+        >Register<span class="material-icons right" style="margin-top: 15px"
+          >person_add</span
+        ></a
+      >
     </div>
   </div>
   <!-- sidenav content -->
   <ul class="sidenav" id="mobile-demo">
-    <li><a href="#!">username</a></li>
+    <li>
+      <a href="#!">{{ loggedInUserEmail }}</a>
+    </li>
     <li><a href="#!">one</a></li>
     <li><a href="#!">two</a></li>
     <li class="divider"></li>
@@ -23,7 +59,8 @@
     <li class="divider"></li>
     <li><a class="fcbrown">two</a></li>
     <li class="divider"></li>
-    <li><a class="fcbrown modal-trigger" href="#loginmodal">Login</a></li>
+    <li v-if="isLoggedIn===false"><a class="fcbrown modal-trigger" href="#loginmodal">Login</a></li>
+    <li v-if="isLoggedIn===true"><a class="fcbrown" @click="logout()">Logout</a></li>
   </ul>
   <!-- nav -->
   <nav class="z-depth-0 brown">
@@ -38,7 +75,8 @@
       <ul class="right hide-on-med-and-down">
         <li>
           <a class="dropdown-trigger" href="#!" data-target="dropdown1"
-            >username<i class="material-icons right">arrow_drop_down</i></a
+            >{{ loggedInUserEmail
+            }}<i class="material-icons right">arrow_drop_down</i></a
           >
         </li>
       </ul>
@@ -75,6 +113,14 @@
 
 <script>
 import M from "@materializecss/materialize";
+import firebase from "../utilities/firebase";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut,
+} from "firebase/auth";
 
 export default {
   data() {
@@ -82,10 +128,30 @@ export default {
       isSearchActive: false,
       searchIconActive: "searchiconactive",
       searchIconInactive: "searchiconinactive",
+
+      email: "",
+      password: "",
+
+      loggedInUserEmail: "Please Login",
+      isLoggedIn: false,
     };
   },
   mounted() {
     M.AutoInit();
+
+    const auth = getAuth(firebase.app);
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        //https://firebase.google.com/docs/reference/js/firebase.User
+        this.loggedInUserEmail = user.email;
+        this.isLoggedIn = true;
+        console.log("user email: " + user.email);
+        // ...
+      } else {
+        this.LoginText = "Login";
+      }
+    });
   },
   methods: {
     shoppingCartBtn() {
@@ -102,6 +168,62 @@ export default {
       if (elem !== document.activeElement) {
         this.isSearchActive = false;
       }
+    },
+    login() {
+      const auth = getAuth(firebase.app);
+      signInWithEmailAndPassword(auth, this.email, this.password)
+        .then((res) => {
+          console.log("console.log login successful: ");
+          console.log(res);
+          this.loggedInUserEmail = res.user.email;
+
+          let elem = document.getElementById("loginmodal");
+          let instance = M.Modal.getInstance(elem);
+          instance.close();
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log("error: " + errorCode + errorMessage);
+          // ..
+        });
+    },
+    register() {
+      const auth = getAuth(firebase.app);
+      createUserWithEmailAndPassword(auth, this.email, this.password)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log("user email: " + user.email);
+          this.loggedInUserEmail = user.email;
+
+          let elem = document.getElementById("loginmodal");
+          let instance = M.Modal.getInstance(elem);
+          instance.close();
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log("error: " + errorCode + errorMessage);
+          // ..
+        });
+    },
+    logout() {
+      const auth = getAuth(firebase.app);
+      signOut(auth)
+        .then(() => {
+          this.loggedInUserEmail = "Please Login";
+          this.isLoggedIn = false;
+          console.log("logged out");
+          // Sign-out successful.
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log("error: " + errorCode + errorMessage);
+          // ..
+        });
     },
   },
 };
@@ -129,5 +251,18 @@ export default {
 }
 .fcbrown {
   color: #795548 !important;
+}
+.input-field input:focus + label {
+  color: #795548 !important;
+}
+#email {
+  color: #3e2723 !important;
+}
+#password {
+  color: #3e2723 !important;
+}
+.input-field input:focus {
+  border-bottom: 1px #795548 !important;
+  box-shadow: 0 1px #8d6e63 !important;
 }
 </style>
