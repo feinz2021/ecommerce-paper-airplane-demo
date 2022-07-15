@@ -44,14 +44,18 @@
     </div>
   </div>
   <!-- sidenav content -->
-  <ul class="sidenav" id="mobile-demo">
+  <ul class="sidenav" id="sidenav">
     <li>
-      <a href="#!">{{ loggedInUserEmail }}</a>
+      <a class="fcbrown">{{ loggedInUserEmail }}</a>
     </li>
-    <li><a href="#!">one</a></li>
-    <li><a href="#!">two</a></li>
-    <li class="divider"></li>
-    <li><a class="fcbrown modal-trigger" href="#loginmodal">Login</a></li>
+    <li><a class="fcbrown fp">aa</a></li>
+    <li><a class="fcbrown fp">two</a></li>
+    <li v-if="isLoggedIn === false">
+      <a class="fp fcbrown modal-trigger" @click="closeSidenav()" href="#loginmodal">Login</a>
+    </li>
+    <li v-if="isLoggedIn === true">
+      <a class="fp fcbrown" @click="logout(), closeSidenav()">Logout</a>
+    </li>
   </ul>
   <!-- dropdown content (must be identical to sidenav content) -->
   <ul id="dropdown1" class="dropdown-content rc">
@@ -59,8 +63,12 @@
     <li class="divider"></li>
     <li><a class="fcbrown">two</a></li>
     <li class="divider"></li>
-    <li v-if="isLoggedIn===false"><a class="fcbrown modal-trigger" href="#loginmodal">Login</a></li>
-    <li v-if="isLoggedIn===true"><a class="fcbrown" @click="logout()">Logout</a></li>
+    <li v-if="isLoggedIn === false">
+      <a class="fcbrown modal-trigger" href="#loginmodal">Login</a>
+    </li>
+    <li v-if="isLoggedIn === true">
+      <a class="fcbrown" @click="logout()">Logout</a>
+    </li>
   </ul>
   <!-- nav -->
   <nav class="z-depth-0 brown">
@@ -68,7 +76,7 @@
       <router-link to="/" class="brand-logo hide-on-med-and-down"
         >Logo</router-link
       >
-      <a href="#" data-target="mobile-demo" class="sidenav-trigger"
+      <a href="#" data-target="sidenav" class="sidenav-trigger"
         ><i class="material-icons">menu</i></a
       >
 
@@ -149,7 +157,7 @@ export default {
         console.log("user email: " + user.email);
         // ...
       } else {
-        this.LoginText = "Login";
+        this.loggedInUserEmail = "Please Login";
       }
     });
   },
@@ -225,6 +233,11 @@ export default {
           // ..
         });
     },
+    closeSidenav() {
+      let elem = document.getElementById("sidenav");
+      let instance = M.Sidenav.getInstance(elem);
+      instance.close();
+    },
   },
 };
 </script>
@@ -264,5 +277,8 @@ export default {
 .input-field input:focus {
   border-bottom: 1px #795548 !important;
   box-shadow: 0 1px #8d6e63 !important;
+}
+.fp {
+  cursor: pointer;
 }
 </style>
